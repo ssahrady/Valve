@@ -1,0 +1,37 @@
+
+.row {
+	padding: 3px 0;	
+}
+
+.clear {
+	clear: both;
+}
+
+textarea {
+	width: 100%;
+}
+
+.margin-top-17 {
+	margin-top: 17px;
+}
+
+.margin-left-20 {
+	margin-left: 20px;
+}
+
+.margin-left-0 {
+	margin-left: 0;
+}
+
+ .actions {
+ 	text-align: right;
+ }
+ 
+ .w70 {
+ 	width: 70px;
+ }
+ 
+ .input {
+ 	width: 120px;
+ 	float: left;
+ }
