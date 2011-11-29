@@ -1,5 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-	<persistence-unit name="Valve">
+	<persistence-unit name="Valve" transaction-type="RESOURCE_LOCAL">
+		<class>ee.itcollege.Valve.entities.AdminAlluvus</class>
+		<class>ee.itcollege.Valve.entities.Amet</class>
+		<class>ee.itcollege.Valve.entities.AmetPiiripunkti</class>
+		<class>ee.itcollege.Valve.entities.AmetVaeosa</class>
+		<class>ee.itcollege.Valve.entities.Auaste</class>
+		<class>ee.itcollege.Valve.entities.AuastmeMuutumine</class>
+		<class>ee.itcollege.Valve.entities.IntsidendiLiik</class>
+		<class>ee.itcollege.Valve.entities.Intsident</class>
+		<class>ee.itcollege.Valve.entities.IsikuSeadusIntsidendi</class>
+		<class>ee.itcollege.Valve.entities.IsikIntsidendi</class>
+		<class>ee.itcollege.Valve.entities.Kodakondsus</class>
+		<class>ee.itcollege.Valve.entities.KontaktiLiik</class>
+		<class>ee.itcollege.Valve.entities.Objekt</class>
+		<class>ee.itcollege.Valve.entities.ObjektiLiik</class>
+		<class>ee.itcollege.Valve.entities.ObjektiSeadusIntsidendi</class>
+		<class>ee.itcollege.Valve.entities.ObjektIntsidendi</class>
+		<class>ee.itcollege.Valve.entities.OrgYksus</class>
+		<class>ee.itcollege.Valve.entities.PiiriloiguHaldaja</class>
+		<class>ee.itcollege.Valve.entities.Piiriloik</class>
+		<class>ee.itcollege.Valve.entities.Piiripunkt</class>
+		<class>ee.itcollege.Valve.entities.PiiripunktiAlluvus</class>
+		<class>ee.itcollege.Valve.entities.PiiripunktiOrgYksus</class>
+		<class>ee.itcollege.Valve.entities.Piiririkkuja</class>
+		<class>ee.itcollege.Valve.entities.Piirivalvur</class>
+		<class>ee.itcollege.Valve.entities.PiirivalvuriKontakt</class>
+		<class>ee.itcollege.Valve.entities.PiirivalvuriSeadusIntsidendi</class>
+		<class>ee.itcollege.Valve.entities.PiirivalvurIntsidendi</class>
+		<class>ee.itcollege.Valve.entities.PiirivalvurPiiripunkti</class>
+		<class>ee.itcollege.Valve.entities.PiirivalvurVaeosa</class>
+		<class>ee.itcollege.Valve.entities.PiirivalvurVodikohal</class>
+		<class>ee.itcollege.Valve.entities.RiigiAdminYksus</class>
+		<class>ee.itcollege.Valve.entities.RiigiAdminYksuseLiik</class>
+		<class>ee.itcollege.Valve.entities.Riik</class>
+		<class>ee.itcollege.Valve.entities.Ruumiyksus</class>
+		<class>ee.itcollege.Valve.entities.RuumiyksuseLiik</class>
+		<class>ee.itcollege.Valve.entities.Seadus</class>
+		<class>ee.itcollege.Valve.entities.SeadusePunkt</class>
+		<class>ee.itcollege.Valve.entities.SeotudKontaktisik</class>
+		<class>ee.itcollege.Valve.entities.SuguluseRolliLiik</class>
+		<class>ee.itcollege.Valve.entities.Vaeosa</class>
+		<class>ee.itcollege.Valve.entities.VaeosaAlluvus</class>
+		<class>ee.itcollege.Valve.entities.Vahtkond</class>
+		<class>ee.itcollege.Valve.entities.VahtkondIntsidendi</class>
+		<class>ee.itcollege.Valve.entities.VahtkonnaLiige</class>
+		<class>ee.itcollege.Valve.entities.VahtkonndPiiriloigul</class>
+		<class>ee.itcollege.Valve.entities.VoimalikAlluvus</class>
+		<class>ee.itcollege.Valve.entities.Voodikoht</class>
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:PiiriDB"/>
+			<property name="javax.persistence.jdbc.user" value="sa"/>
+			<property name="javax.persistence.jdbc.password" value=""/>
+			<property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver"/>
+		</properties>
 	</persistence-unit>
 </persistence>
