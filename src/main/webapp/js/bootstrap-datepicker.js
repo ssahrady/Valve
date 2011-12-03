@@ -268,7 +268,8 @@
         if (dom.length === 1) {
           dom = '0' + dom;
         }
-        return dom + '.' + month + '.' + date.getFullYear();
+        return date.getFullYear() + '-' + month + '-' + dom;
+        
       }
 
     , ahead: function(months, days) {

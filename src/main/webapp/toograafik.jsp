@@ -1,3 +1,6 @@
+<%@page import="java.util.Date"%>
+
+<%@page import="javax.xml.ws.spi.http.HttpContext"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
@@ -18,11 +21,7 @@
             <div class="fill">
 	            <div class="container">
 	                <a class="brand" href="/Valve">Vahtkond</a>
-	                <form action="" class="pull-right">
-				        <input class="input-small" type="text" placeholder="Username">
-				        <input class="input-small" type="password" placeholder="Password">
-				        <button class="btn" type="submit">Sign in</button>
-				    </form>
+	                <p class="pull-right">Logged in as <span class="username"><%= session.getAttribute("kasutaja") %></span></p>
 	            </div>
             </div>
         </div>

@@ -1,3 +1,5 @@
+<%@page import="org.hsqldb.lib.Iterator"%>
+<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
@@ -12,18 +14,21 @@
         <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
         <script src="js/bootstrap-datepicker.js"></script>
         <script src="js/bootstrap-modal.js"></script>
+        <script src="js/bootstrap-alerts.js"></script>
         <title>JSP Page</title>
     </head>
     <body>
+		<% 
+			ResultSet rs = (ResultSet)request.getAttribute("rs");
+		%>		
         <div class="topbar">
             <div class="fill">
 	            <div class="container">
-	                <a class="brand" href="/Valve">Vahtkond</a>
-	                <form action="" class="pull-right">
-				        <input class="input-small" type="text" placeholder="Username">
-				        <input class="input-small" type="password" placeholder="Password">
-				        <button class="btn" type="submit">Sign in</button>
+	                <a class="brand" href="/Valve/Main">Vahtkond</a>
+	                <form action="Main" class="pull-right" method="post">
+	                	<button class="btn" name="logout" type="submit">Log out</button>
 				    </form>
+				    <p class="pull-right">Logged in as <span class="username"><%= session.getAttribute("kasutaja") %></span></p>	                
 	            </div>
             </div>
         </div>
@@ -32,7 +37,10 @@
             <div class="content">
             	<div class="page-header">
             		<h2>Vahtkonna redaktor</h2>
+            		<h2><%= request.getAttribute("done") %></h2>
             	</div>
+            	<form action="Main" method="post" id="vahtkondSubmit">
+            	<input type="hidden" name="lisaVahtkond" value="lisa"/>
 				<div class="span14">
 					<div class="span7">
 						<div class="row">
@@ -55,14 +63,17 @@
 						
 						<div class="row">
 							<div class="span2">
-								<span>Piirpunkt:</span>
+								<span>Piiripunkt:</span>
 							</div>
 							<div class="span5">
-								<select name="piitpunkt">
-								  <option value="volvo">Volvo</option>
-								  <option value="saab">Saab</option>
-								  <option value="mercedes">Mercedes</option>
-								  <option value="audi">Audi</option>
+								<select name="piiripunkt">
+									<% 
+									while( rs.next() ){
+									%>
+									<option value="<%= rs.getString("PIIRIPUNKT_ID") %>"><%= rs.getString("NIMETUS") %></option>
+									<%
+									}
+									%>
 								</select>
 							</div>
 						</div>
@@ -95,9 +106,9 @@
 								<textarea name="kommentaar"></textarea>
 							</div>
 						</div>
-						<a href="toograafik.jsp" class="btn pull-right actions">Töögraafik</a>
+						<a href="" class="btn pull-right actions">Töögraafik</a>
 					</div>
-					
+					</form>
 					<table class="margin-top-17">
 						<tr>
 							<th>Piirvalvurid</th>
@@ -120,8 +131,8 @@
 					</table>
 					
 					<div class="actions">
-						<a href="" class="btn" data-controls-modal="lisaVahtkond" data-backdrop="true" data-keyboard="true">Lisa</a>
-						<a href="" class="btn success">Salvesta</a>
+						<a id="submitVahtkond" href="#" class="btn">Lisa</a>
+						<a href="" class="btn success" data-controls-modal="lisaVahtkond" data-backdrop="true" data-keyboard="true">Salvesta</a>
 					</div>
 				</div>
 				<div class="clear"></div>
@@ -181,6 +192,22 @@
                 <p>&copy; Company 2011</p>
             </footer>
 
-        </div> <!-- /container -->
+        </div> <!-- /container -->		
+        
     </body>
+    
+    <script type="text/javascript">
+	    $("#submitVahtkond").click(function() {
+	    	var isError = false;
+	        $("#vahtkondSubmit").find("input, select, textarea").each(function() {
+		        if($(this).text() == "" && $(this).val() == "") {
+		        	$(".page-header").after('<div data-alert="alert" class="alert-message error fade in"><a href="#" class="close">×</a><p><strong>Holy guacamole!</strong> Every field must be filled.</p></div>');
+		        	isError = true;
+		            return false;
+		        }
+	        });
+	        if(isError == false)
+	        	$("#vahtkondSubmit").submit();
+	    });
+    </script>
 </html>

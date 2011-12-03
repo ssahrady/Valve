@@ -35,3 +35,11 @@ textarea {
  	width: 120px;
  	float: left;
  }
+ 
+ .username {
+ 	color: #aaa;
+ }
+ 
+.topbar form.pull-right {
+    margin-left: 10px;
+}

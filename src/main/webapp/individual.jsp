@@ -18,10 +18,10 @@
             <div class="fill">
 	            <div class="container">
 	                <a class="brand" href="/Valve">Vahtkond</a>
-	                <form action="" class="pull-right">
+	                <form action="Main"class="pull-right" method="post">
 				        <input class="input-small" type="text" placeholder="Username">
 				        <input class="input-small" type="password" placeholder="Password">
-				        <button class="btn" type="submit">Sign in</button>
+				        <button class="btn" name="login" type="submit">Sign in</button>
 				    </form>
 	            </div>
             </div>
