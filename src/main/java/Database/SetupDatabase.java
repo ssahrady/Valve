@@ -34,7 +34,7 @@ public class SetupDatabase extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		try {
 			Class.forName("org.hsqldb.jdbcDriver");
-			Connection conn = DriverManager.getConnection("jdbc:hsqldb:C:/Users/seda/workspace/DB/ValveDB");
+			Connection conn = DriverManager.getConnection("jdbc:hsqldb:PiiriDB");
 			out.println("Baasi nimi: " + conn.getMetaData().getDatabaseProductName());
 			
 			Statement s =  conn.createStatement();
@@ -42,7 +42,8 @@ public class SetupDatabase extends HttpServlet {
 			s.execute("INSERT INTO RIIGI_ADMIN_YKSUSE_LIIK (RIIGI_ADMIN_YKSUSE_LIK_ID, AVAJA, AVATUD, MUUTJA, MUUDETUD, SULGEJA, SULETUD, KOOD, NIMETUS, KOMMENTAAR, ALATES, KUNI) VALUES (2, 'ylem', CURRENT_DATE, 'ylem', CURRENT_DATE, 'ylem', CURRENT_DATE, 'esimene', 'nimetus1', 'kommentaar', CURRENT_DATE, CURRENT_DATE)");
 			s.execute("INSERT INTO RIIGI_ADMIN_YKSUS (RIIGI_ADMIN_YKSUS_ID, AVAJA, AVATUD, MUUTJA, MUUDETUD, SULGEJA, SULETUD, KOOD, NIMETUS, KOMMENTAAR, ALATES, KUNI, RIIGI_ADMIN_YKSUSE_LIK_ID) VALUES (2, 'ylem', CURRENT_DATE, 'ylem', CURRENT_DATE, 'ylem', CURRENT_DATE, 'esimene', 'nimetus1', 'kommentaar', CURRENT_DATE, CURRENT_DATE, 2)");
 			s.execute("INSERT INTO VAEOSA (VAEOSA_ID_ID, AVAJA, AVATUD, MUUTJA, MUUDETUD, SULGEJA, SULETUD, KOOD, NIMETUS, KOMMENTAAR, RIIGI_ADMIN_YKSUS_ID, ALATES, KUNI) VALUES (2, 'ylem', CURRENT_DATE, 'ylem', CURRENT_DATE, 'ylem', CURRENT_DATE, 'esimene', 'nimetus1', 'kommentaar', 2, CURRENT_DATE, CURRENT_DATE)");
-			
+			s.execute("INSERT INTO PIIRILOIK (PIIRILOIK_ID, AVAJA, AVATUD, MUUTJA, MUUDETUD, SULGEJA, SULETUD,KOOD, NIMETUS, GPS_KOORDINAADID, KOMMENTAAR) values (2, 'ylem', CURRENT_DATE, 'ylem', CURRENT_DATE, 'ylem', CURRENT_DATE, 'esimene loik', 'nimetus1', '10,222 56.222243', 'kommentaar')");
+			s.execute("INSERT INTO VAHTKOND (VAHTKOND_ID, AVAJA, AVATUD, MUUTJA, MUUDETUD, SULGEJA, SULETUD, KOOD, NIMETUS, KOMMENTAAR, ALATES, KUNI, PIIRIPUNKT_ID, VAEOSA_ID_ID ) VALUES(2, 'ylem', CURRENT_DATE, 'ylem', CURRENT_DATE, 'ylem', CURRENT_DATE, 'esimene', 'nimetus1', 'kommentaar', CURRENT_DATE, CURRENT_DATE,2,1)");
 			
 			out.println("Tabel loomine ");
 			conn.close();

@@ -106,7 +106,7 @@
 								<textarea name="kommentaar"></textarea>
 							</div>
 						</div>
-						<a href="" class="btn pull-right actions">Töögraafik</a>
+						<a href="Toograafik.java" class="btn pull-right actions">Töögraafik</a>
 					</div>
 					</form>
 					<table class="margin-top-17">

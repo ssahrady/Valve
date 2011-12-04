@@ -17,6 +17,7 @@
         <title>JSP Page</title>
     </head>
     <body>
+    	
         <div class="topbar">
             <div class="fill">
 	            <div class="container">
@@ -30,9 +31,12 @@
             <div class="content">
             	<div class="page-header">
             		<h2>Töögraafiku redaktor</h2>
+            		<h2><%= request.getAttribute("done") %></h2>
             	</div>
+            	<form action="Main" method="post">
+            	<input type="hidden" name="lisaToograafik" value="lisa"/>
 				<div class="span14">
-					<h1><small>Vahtkond: V001 - Öine</small></h1>
+					<h1><small>Tekst</small></h1>
 					<table>
 						<tr>
 							<th>#</th>
