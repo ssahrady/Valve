@@ -19,8 +19,9 @@
     </head>
     <body>
 		<% 
-			ResultSet rs = (ResultSet)request.getAttribute("rs");
-		%>		
+			ResultSet rs = (ResultSet)request.getAttribute("piiripunkt");
+			ResultSet piirivalvur = (ResultSet)request.getAttribute("piirivalvur");
+		%>	
         <div class="topbar">
             <div class="fill">
 	            <div class="container">
@@ -37,7 +38,6 @@
             <div class="content">
             	<div class="page-header">
             		<h2>Vahtkonna redaktor</h2>
-            		<h2><%= request.getAttribute("done") %></h2>
             	</div>
             	<form action="Main" method="post" id="vahtkondSubmit">
             	<input type="hidden" name="lisaVahtkond" value="lisa"/>
@@ -106,7 +106,7 @@
 								<textarea name="kommentaar"></textarea>
 							</div>
 						</div>
-						<a href="Toograafik.java" class="btn pull-right actions">Töögraafik</a>
+						<a href="toograafik.jsp" class="btn pull-right actions">Töögraafik</a>
 					</div>
 					</form>
 					<table class="margin-top-17">
@@ -128,64 +128,67 @@
 							<td>20.11.11</td>
 							<td>Kommentaaar<a href="#muuta" class="pull-right btn">Muuda</a></td>
 						</tr>
-					</table>
-					
+					</table>					
 					<div class="actions">
-						<a id="submitVahtkond" href="#" class="btn">Lisa</a>
-						<a href="" class="btn success" data-controls-modal="lisaVahtkond" data-backdrop="true" data-keyboard="true">Salvesta</a>
+						<a href="" class="btn" data-controls-modal="lisaVahtkond" data-backdrop="true" data-keyboard="true">Lisa</a>
+						<a id="submitVahtkond" href="#" class="btn success">Salvesta</a>
 					</div>
 				</div>
 				<div class="clear"></div>
             </div>
-
-
 			<div id="lisaVahtkond" class="modal hide fade">
 				<div class="modal-header">
 					<a href="#" class="close">&times;</a>
 					<h3>Lisa vahtkond</h3>
 				</div>
-				<div class="modal-body">
-					<div class="row">
-						<div class="span2">
-							<span>Piirvalvur:</span>
+				<form action="Main" method="post" id="vahtkondSubmit">
+					<div class="modal-body">
+						<div class="row">
+							<div class="span2">
+								<span>Piirvalvur:</span>
+							</div>
+							<div class="span5">
+								<select name="piirivalvur">
+										<% 
+										while( piirivalvur.next() ){
+										%>
+										<option value="<%= piirivalvur.getString("PIIRIVALVUR_ID") %>"><%= piirivalvur.getString("EESNIMED") %> <%=piirivalvur.getString("PEREKONNANIMI") %></option>
+										<%
+										}
+										%>
+									</select>
+							</div>
 						</div>
-						<div class="span5">
-							<input type="text" name="kood"/>
+						
+						<div class="row">
+							<div class="span2">
+								<span>Alates:</span>
+							</div>
+							<div class="span5">
+								<input type="text" data-datepicker="datepicker" name="alates"/>
+							</div>
+						</div>						
+						<div class="row">
+							<div class="span2">
+								<span>Kuni:</span>
+							</div>
+							<div class="span5">
+								<input type="text" data-datepicker="datepicker" name="kuni"/>
+							</div>
+						</div>
+						<div class="row">
+							<div class="span2">
+								<span>Kommentaar:</span>
+							</div>
+							<div class="span5">
+								<textarea name="kommentaar"></textarea>
+							</div>
 						</div>
 					</div>
-					
-					<div class="row">
-						<div class="span2">
-							<span>Alates:</span>
-						</div>
-						<div class="span5">
-							<input type="text" data-datepicker="datepicker" name="alates"/>
-						</div>
+					<div class="actions">
+							<button type="submit" name="lisaPiirivalvur" class="btn success">Salvesta</button>
 					</div>
-					
-					<div class="row">
-						<div class="span2">
-							<span>Kuni:</span>
-						</div>
-						<div class="span5">
-							<input type="text" data-datepicker="datepicker" name="kuni"/>
-						</div>
-					</div>
-					
-					<div class="row">
-						<div class="span2">
-							<span>Kommentaar:</span>
-						</div>
-						<div class="span5">
-							<textarea name="kommentaar"></textarea>
-						</div>
-					</div>
-				
-				</div>
-				<div class="modal-footer">
-				  <a href="#" class="btn primary">Lisa</a>
-				</div>
-			</div>
+				</form>
 			
 
             <footer>

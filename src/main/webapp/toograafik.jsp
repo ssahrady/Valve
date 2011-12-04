@@ -115,9 +115,10 @@
 					</div>
 				
 				</div>
-				<div class="modal-footer">
-				  <a href="#" class="btn primary">Lisa</a>
-				</div>
+					<div class="actions">
+						<a id="submitToograafik" href="#" class="btn">Lisa</a>
+						<a href="" class="btn success" data-controls-modal="lisaToograafik" data-backdrop="true" data-keyboard="true">Lisa</a>
+					</div>
 			</div>
 
             <footer>
