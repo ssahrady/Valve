@@ -25,7 +25,6 @@ public class Toograafik extends HttpServlet {
      */
     public Toograafik() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -33,7 +32,6 @@ public class Toograafik extends HttpServlet {
 	 */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
-		PrintWriter out = response.getWriter();
 		
 		HttpSession session =  request.getSession();
 		if(session.getAttribute("kasutaja") == null) {
@@ -98,8 +96,6 @@ public class Toograafik extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-			
-		
 	}
 
 	private void lisaToograafik(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
@@ -120,7 +116,7 @@ public class Toograafik extends HttpServlet {
 		rs=null;
 		
 		 
-		String url=	"jdbc:hsqldb:PiiriDB";
+		String url=	"jdbc:hsqldb:file:${user.home}/i377/Team18/db;shutdown=true";
 		String id= "sa";
 		String pass = "";
 		try{
@@ -183,7 +179,7 @@ public class Toograafik extends HttpServlet {
 		rs=null;
 		
 		 
-		String url=	"jdbc:hsqldb:PiiriDB";
+		String url=	"jdbc:hsqldb:file:${user.home}/i377/Team18/db;shutdown=true";
 		String id= "sa";
 		String pass = "";
 		try{

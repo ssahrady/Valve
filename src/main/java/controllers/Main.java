@@ -4,8 +4,11 @@ package controllers;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 import javax.sql.*;
 
@@ -32,6 +35,25 @@ public class Main extends HttpServlet {
     public Main() {
         super();
         // TODO Auto-generated constructor stub
+    }
+    public void init() {
+    	try {
+			Class.forName("org.hsqldb.jdbcDriver");
+			Connection conn = DriverManager.getConnection("jdbc:hsqldb:file:${user.home}/i377/Team18/db;shutdown=true");
+			
+			Statement s =  conn.createStatement();
+			s.execute("INSERT INTO PIIRIPUNKT (PIIRIPUNKT_ID,KOOD,NIMETUS,GPS_LONGITUIDE,GPS_LATITUDE,KORGUS_MEREPINNAST,KOMMENTAAR,ALATES,KUNI,AVAJA,AVATUD,MUUTJA,MUUDETUD,SULGEJA,SULETUD) VALUES (IDENTITY(),'P101','Ikla',42482, 41378, 331,'Test_kommentaar','2011-11-11','2011-11-13','Henrik','2011-11-11','','','','')");
+			s.execute("INSERT INTO RIIGI_ADMIN_YKSUSE_LIIK (RIIGI_ADMIN_YKSUSE_LIK_ID, AVAJA, AVATUD, MUUTJA, MUUDETUD, SULGEJA, SULETUD, KOOD, NIMETUS, KOMMENTAAR, ALATES, KUNI) VALUES (IDENTITY(), 'ylem', CURRENT_DATE, '', '', '', '', 'Riigi_admin_yksys_liik_1', 'Riigi_admin_yksys_liik_nimetus', 'kommentaar', CURRENT_DATE, CURRENT_DATE)");
+			s.execute("INSERT INTO RIIGI_ADMIN_YKSUS (RIIGI_ADMIN_YKSUS_ID, AVAJA, AVATUD, MUUTJA, MUUDETUD, SULGEJA, SULETUD, KOOD, NIMETUS, KOMMENTAAR, ALATES, KUNI, RIIGI_ADMIN_YKSUSE_LIK_ID) VALUES (IDENTITY(), 'ylem', CURRENT_DATE, '', '', '', '', 'Riigi_admin_yksys_1', 'Riigi_admin_yksys_nimetus', 'kommentaar', CURRENT_DATE, CURRENT_DATE, 1)");
+			s.execute("INSERT INTO VAEOSA (VAEOSA_ID_ID, AVAJA, AVATUD, MUUTJA, MUUDETUD, SULGEJA, SULETUD, KOOD, NIMETUS, KOMMENTAAR, RIIGI_ADMIN_YKSUS_ID, ALATES, KUNI) VALUES (IDENTITY(), 'ylem', CURRENT_DATE, '', '', '', '', 'esimene', 'nimetus1', 'kommentaar', 1, CURRENT_DATE, CURRENT_DATE)");
+			s.execute("INSERT INTO PIIRILOIK (PIIRILOIK_ID, AVAJA, AVATUD, MUUTJA, MUUDETUD, SULGEJA, SULETUD,KOOD, NIMETUS, GPS_KOORDINAADID, KOMMENTAAR) values (IDENTITY(), 'ylem', CURRENT_DATE, '', '', '', '', 'esimene loik', 'nimetus1', '10.222 56.222243', 'kommentaar')");
+			s.execute("INSERT INTO VAHTKOND (VAHTKOND_ID, AVAJA, AVATUD, MUUTJA, MUUDETUD, SULGEJA, SULETUD, KOOD, NIMETUS, KOMMENTAAR, ALATES, KUNI, PIIRIPUNKT_ID, VAEOSA_ID_ID ) VALUES(IDENTITY(), 'ylem', CURRENT_DATE, 'ylem', CURRENT_DATE, 'ylem', CURRENT_DATE, 'esimene', 'nimetus1', 'kommentaar', CURRENT_DATE, CURRENT_DATE,2,1)");
+			 s.execute("INSERT INTO PIIRIVALVUR (PIIRIVALVUR_ID, AVAJA, AVATUD, MUUTJA, MUUDETUD, SULGEJA, SULETUD, ISIKUKOOD, EESNIMED, PEREKONNANIMI, SUGU, SODURI_KOOD, KOMMENTAAR) VALUES (IDENTITY(), 'ylem', CURRENT_DATE, 'ylem', CURRENT_DATE, 'ylem', CURRENT_DATE, '49027364527', 'Maksim', 'Kirsipuu', 'M', '63726348', 'komm')");
+			
+			conn.close();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
     }
 
 	/**
@@ -128,7 +150,7 @@ public class Main extends HttpServlet {
 		rs=null;
 		
 		 
-		String url=	"jdbc:hsqldb:C:/Users/Aram/workspace/DB/ValveDB";
+		String url=	"jdbc:hsqldb:file:${user.home}/i377/Team18/db;shutdown=true";
 		String id= "sa";
 		String pass = "";
 		try{
@@ -139,7 +161,7 @@ public class Main extends HttpServlet {
 			cnfex.printStackTrace();
 		}
 		
-		String sql = "INSERT INTO VAHTKOND (VAHTKOND_ID, AVAJA, AVATUD, MUUTJA, MUUDETUD, SULGEJA, SULETUD, KOOD, NIMETUS, KOMMENTAAR, ALATES, KUNI, PIIRIPUNKT_ID, VAEOSA_ID_ID) VALUES (10, '" + avaja + "', CURRENT_DATE, '" + avaja + "', CURRENT_DATE, '" +avaja + "', CURRENT_DATE, '" + kood + "', '" + nimetus + "', '" + kommentaar + "', '" + alates + "', '" + kuni + "', 111, 2)"; 
+		String sql = "INSERT INTO VAHTKOND (VAHTKOND_ID, AVAJA, AVATUD, MUUTJA, MUUDETUD, SULGEJA, SULETUD, KOOD, NIMETUS, KOMMENTAAR, ALATES, KUNI, PIIRIPUNKT_ID, VAEOSA_ID_ID) VALUES (IDENTITY(), '" + avaja + "', CURRENT_DATE, '" + avaja + "', CURRENT_DATE, '" +avaja + "', CURRENT_DATE, '" + kood + "', '" + nimetus + "', '" + kommentaar + "', '" + alates + "', '" + kuni + "', 111, 2)"; 
 		try{
 			s = con.createStatement();
 			rs = s.executeQuery(sql);
@@ -160,7 +182,8 @@ public class Main extends HttpServlet {
 	}
 
 	private void goToMainPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-			request.setAttribute("rs", andmed());
+			request.setAttribute("piiripunkt", Piiripunkt());
+			request.setAttribute("piirivalvur", Piirivalvur());
 			RequestDispatcher view = request.getRequestDispatcher("vahtkond.jsp");
 			view.forward(request, response);
 			
@@ -179,19 +202,12 @@ public class Main extends HttpServlet {
 		}
 	}
 	
-	private static ResultSet andmed() throws SQLException {
-		java.sql.Connection con;
-		java.sql.Statement s;
-		java.sql.ResultSet rs;
-//		java.sql.PreparedStatement pst;
-		
-		con=null;
-		s=null;
-//		pst=null;
-		rs=null;
-		
+	private static ResultSet Piiripunkt() throws SQLException {
+		Connection con = null;
+		Statement s = null;
+		ResultSet piiripunkt = null;		
 		 
-		String url=	"jdbc:hsqldb:C:/Users/Aram/workspace/DB/ValveDB";
+		String url=	"jdbc:hsqldb:file:${user.home}/i377/Team18/db;shutdown=true";
 		String id= "sa";
 		String pass = "";
 		try{
@@ -205,14 +221,44 @@ public class Main extends HttpServlet {
 		String sql = "SELECT * FROM PIIRIPUNKT";
 		try{
 			s = con.createStatement();
-			rs = s.executeQuery(sql);
+			piiripunkt = s.executeQuery(sql);
 		}
 		catch(Exception e){ e.printStackTrace(); }
 		finally{
 			if(s!=null) s.close();
 			if(con!=null) con.close();
 		}
-		return rs;
+		return piiripunkt;
+	}
+	
+	private static ResultSet Piirivalvur() throws SQLException {
+		Connection con = null;
+		Statement s = null;
+		ResultSet piirivalvur = null;
+		
+		String url=	"jdbc:hsqldb:file:${user.home}/i377/Team18/db;shutdown=true";
+		String id= "sa";
+		String pass = "";
+		try{
+			Class.forName("org.hsqldb.jdbcDriver");
+			con = java.sql.DriverManager.getConnection(url, id, pass);
+		}
+		catch(ClassNotFoundException cnfex){
+			cnfex.printStackTrace();
+		}
+		
+		String sql = "SELECT * FROM PIIRIVALVUR";
+		try{
+			s = con.createStatement();
+			piirivalvur = s.executeQuery(sql);
+		}
+		catch(Exception e){ e.printStackTrace(); }
+		finally{
+			if(s!=null) s.close();
+			if(con!=null) con.close();
+		}
+		
+		return piirivalvur;
 	}
 
 }
