@@ -68,10 +68,13 @@
 							<div class="span5">
 								<select name="piiripunkt">
 									<% 
-									while( rs.next() ){
+									if(rs != null)
+									{
+										while( rs.next() ){
 									%>
 									<option value="<%= rs.getString("PIIRIPUNKT_ID") %>"><%= rs.getString("NIMETUS") %></option>
 									<%
+										}
 									}
 									%>
 								</select>
@@ -150,10 +153,13 @@
 							<div class="span5">
 								<select name="piirivalvur">
 										<% 
-										while( piirivalvur.next() ){
+										if(piirivalvur != null)
+										{
+											while( piirivalvur.next() ){
 										%>
 										<option value="<%= piirivalvur.getString("PIIRIVALVUR_ID") %>"><%= piirivalvur.getString("EESNIMED") %> <%=piirivalvur.getString("PEREKONNANIMI") %></option>
 										<%
+											}
 										}
 										%>
 									</select>
