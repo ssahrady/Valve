@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.sql.*;
 
@@ -21,6 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
+
+import org.hibernate.type.DateType;
 
 /**
  * Servlet implementation class Main
@@ -213,7 +216,7 @@ public class Main extends HttpServlet {
 			cnfex.printStackTrace();
 		}
 		
-		String sql = "SELECT * FROM PIIRIPUNKT";
+		String sql = "SELECT * FROM PIIRIPUNKT WHERE suletud < '"+ getDateNowStr() +"'";
 		try{
 			s = con.createStatement();
 			piiripunkt = s.executeQuery(sql);
@@ -239,7 +242,7 @@ public class Main extends HttpServlet {
 			cnfex.printStackTrace();
 		}
 		
-		String sql = "SELECT * FROM PIIRIVALVUR";
+		String sql = "SELECT * FROM PIIRIVALVUR WHERE suletud < '"+ getDateNowStr() +"'";
 		try{
 			s = con.createStatement();
 			piirivalvur = s.executeQuery(sql);
@@ -251,6 +254,13 @@ public class Main extends HttpServlet {
 		}
 		
 		return piirivalvur;
+	}
+	
+	private static String getDateNowStr()
+	{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+		Date myDate = new Date();
+		return sdf.format(myDate);	
 	}
 
 }
