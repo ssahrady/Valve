@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.sql.*;
 
@@ -22,13 +23,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
 
+import org.hibernate.type.DateType;
+
 /**
  * Servlet implementation class Main
  */
 @WebServlet("/Main")
 public class Main extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+       private static String DBurl=	"jdbc:hsqldb:file:${user.home}/i377/Team18/db;shutdown=true";
+       private static String DBid= "sa";
+       private static String DBpass = "";
+       private static String DBdriverName = "org.hsqldb.jdbcDriver";
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -38,8 +44,8 @@ public class Main extends HttpServlet {
     }
     public void init() {
     	try {
-			Class.forName("org.hsqldb.jdbcDriver");
-			Connection conn = DriverManager.getConnection("jdbc:hsqldb:file:${user.home}/i377/Team18/db;shutdown=true");
+			Class.forName(DBdriverName);
+			Connection conn = DriverManager.getConnection(DBurl);
 			
 			Statement s =  conn.createStatement();
 			s.execute("INSERT INTO PIIRIPUNKT (PIIRIPUNKT_ID,KOOD,NIMETUS,GPS_LONGITUIDE,GPS_LATITUDE,KORGUS_MEREPINNAST,KOMMENTAAR,ALATES,KUNI,AVAJA,AVATUD,MUUTJA,MUUDETUD,SULGEJA,SULETUD) VALUES (IDENTITY(),'P101','Ikla',42482, 41378, 331,'Test_kommentaar','2011-11-11','2011-11-13','Henrik','2011-11-11','','','','')");
@@ -149,13 +155,9 @@ public class Main extends HttpServlet {
 		s=null;
 		rs=null;
 		
-		 
-		String url=	"jdbc:hsqldb:file:${user.home}/i377/Team18/db;shutdown=true";
-		String id= "sa";
-		String pass = "";
 		try{
-			Class.forName("org.hsqldb.jdbcDriver");
-			con = java.sql.DriverManager.getConnection(url, id, pass);
+			Class.forName(DBdriverName);
+			con = java.sql.DriverManager.getConnection(DBurl, DBid, DBpass);
 		}
 		catch(ClassNotFoundException cnfex){
 			cnfex.printStackTrace();
@@ -206,19 +208,15 @@ public class Main extends HttpServlet {
 		Connection con = null;
 		Statement s = null;
 		ResultSet piiripunkt = null;		
-		 
-		String url=	"jdbc:hsqldb:file:${user.home}/i377/Team18/db;shutdown=true";
-		String id= "sa";
-		String pass = "";
 		try{
-			Class.forName("org.hsqldb.jdbcDriver");
-			con = java.sql.DriverManager.getConnection(url, id, pass);
+			Class.forName(DBdriverName);
+			con = java.sql.DriverManager.getConnection(DBurl, DBid, DBpass);
 		}
 		catch(ClassNotFoundException cnfex){
 			cnfex.printStackTrace();
 		}
 		
-		String sql = "SELECT * FROM PIIRIPUNKT";
+		String sql = "SELECT * FROM PIIRIPUNKT WHERE suletud < '"+ getDateNowStr() +"'";
 		try{
 			s = con.createStatement();
 			piiripunkt = s.executeQuery(sql);
@@ -236,18 +234,15 @@ public class Main extends HttpServlet {
 		Statement s = null;
 		ResultSet piirivalvur = null;
 		
-		String url=	"jdbc:hsqldb:file:${user.home}/i377/Team18/db;shutdown=true";
-		String id= "sa";
-		String pass = "";
 		try{
-			Class.forName("org.hsqldb.jdbcDriver");
-			con = java.sql.DriverManager.getConnection(url, id, pass);
+			Class.forName(DBdriverName);
+			con = java.sql.DriverManager.getConnection(DBurl, DBid, DBpass);
 		}
 		catch(ClassNotFoundException cnfex){
 			cnfex.printStackTrace();
 		}
 		
-		String sql = "SELECT * FROM PIIRIVALVUR";
+		String sql = "SELECT * FROM PIIRIVALVUR WHERE suletud < '"+ getDateNowStr() +"'";
 		try{
 			s = con.createStatement();
 			piirivalvur = s.executeQuery(sql);
@@ -259,6 +254,13 @@ public class Main extends HttpServlet {
 		}
 		
 		return piirivalvur;
+	}
+	
+	private static String getDateNowStr()
+	{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+		Date myDate = new Date();
+		return sdf.format(myDate);	
 	}
 
 }
